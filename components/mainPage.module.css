@@ -1,0 +1,90 @@
+.container {
+  position: relative;
+  min-height: 60vh;
+  margin-top: 20px;
+  border-radius: 30px;
+  background-color: #fff;
+  overflow: hidden;
+}
+
+.containerBody {
+  display: flex;
+  padding: 1rem;
+}
+
+
+.header {
+  background-color: aliceblue;
+  display: flex;
+  align-items: center;
+  height: 100px;
+  padding-left: 50px;
+}
+
+.headerText {
+  margin-left: 60px;
+  font-size: 33px;
+  font-weight: bold;
+}
+
+/* .header img { */
+/*   background-color: aliceblue; */
+/* } */
+
+.videoBox {
+  position: relative;
+  width: 30%;
+  height: 100%;
+}
+
+.videoBox video {
+  border-radius: 15px;
+}
+
+.avatar {
+  #position: relative;
+  #top: 10px; /* Adjust these properties as per your requirement */
+  #left: 10px;
+  width: 100%; /* Adjust as needed */
+  #height: 50px; /* Adjust as needed */
+  #z-index: 2; /* Make sure this is above the z-index of the video */
+  border-radius: 15px;
+}
+
+.main {
+  position: relative;
+  height: 100%;
+  width: 70%;
+  z-index: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-left: 20px;
+}
+
+.list {
+  position: relative;
+  /* padding: 1rem; */
+}
+
+.mainError {
+  position: relative;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.error {
+  color: #E74C3C66;
+}
+.info {
+  color: #999;
+}
+
+.control {
+  /* removed position, left, bottom, width and z-index properties */
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  background-color: #fff;
+  height: 170px;
+}
