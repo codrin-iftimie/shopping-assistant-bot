@@ -12,14 +12,23 @@ const config = new Configuration({
 })
 const openai = new OpenAIApi(config)
 
+const localConfig = new Configuration({
+  apiKey: 'sk-unknown',
+  basePath: 'http://api:8080',
+})
+const localOpenai = new OpenAIApi(localConfig)
+
 export const runtime = 'edge'
 
 export async function POST(req) {
   // Extract the `messages` from the body of the request
-  const { messages } = await req.json()
+  const { messages, engine } = await req.json()
+
+  const a = engine === 'local ai' ? localOpenai : openai;
+  // console.log('using ai', engine);
 
   // Ask OpenAI for a streaming chat completion given the prompt
-  const response = await openai.createChatCompletion({
+  const response = await a.createChatCompletion({
     model: 'gpt-3.5-turbo',
     stream: true,
     messages

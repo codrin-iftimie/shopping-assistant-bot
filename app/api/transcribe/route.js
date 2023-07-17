@@ -64,7 +64,8 @@ export async function POST(req) {
     formData.append('temperature', options.temperature)
     formData.append('language', options.language)
 
-    const url = options.endpoint === 'transcriptions' ? 'https://api.openai.com/v1/audio/transcriptions' : 'https://api.openai.com/v1/audio/translations'
+    const basePath = options.engine === 'local ai' ? 'http://api:8080' : 'https://api.openai.com';
+    const url = `${basePath}/v1/audio/transcriptions`;
 
     let result = await new Promise((resolve, reject) => {
 
