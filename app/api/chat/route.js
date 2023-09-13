@@ -6,6 +6,7 @@
 
 import { Configuration, OpenAIApi } from 'openai-edge'
 import { OpenAIStream, StreamingTextResponse } from 'ai'
+import { RateLimiterMemory } from "rate-limiter-flexible";
 
 const config = new Configuration({
   apiKey: process.env.OPENAI_APIKEY,
@@ -19,8 +20,20 @@ const localConfig = new Configuration({
 const localOpenai = new OpenAIApi(localConfig)
 
 export const runtime = 'edge'
+const rateLimiter = new RateLimiterMemory({
+  points: 1,
+  duration: 1,
+});
 
 export async function POST(req) {
+  const ip = req.ip ?? '127.0.0.1';
+  try {
+    await rateLimiter.consume(ip, 1)
+  } catch(err) {
+    return new Response('Limit exceeded', {
+      status: 429,
+    })
+  }
   // Extract the `messages` from the body of the request
   const { messages, engine } = await req.json()
 
