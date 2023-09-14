@@ -526,7 +526,7 @@ export default function MainPage() {
     <div className={classes.container}>
       <div className={classes.header}>
         <img height="70" src="https://upload.wikimedia.org/wikipedia/commons/a/a0/Macy%27s_Logo_2019.png" />
-        <div className={classes.headerText}>Smart Shopping Assistant</div>
+        <div className={classes.headerText}>Shopping Assistant Bot</div>
       </div>
       <div className={classes.containerBody}>
         <div className={classes.videoBox}>
