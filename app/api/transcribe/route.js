@@ -2,13 +2,29 @@ import fs from 'fs'
 import path from 'path'
 import { exec } from 'child_process'
 import axios from 'axios'
+import { RateLimiterMemory } from "rate-limiter-flexible";
 // import FormData from 'form-data'
 
+
 import { cleanInput } from '../../../lib/utils'
+
+
+const rateLimiter = new RateLimiterMemory({
+  points: 1,
+  duration: 1,
+});
 
 export async function POST(req) {
 
     const form = await req.formData()
+    const ip = req.ip ?? '127.0.0.1';
+    try {
+      await rateLimiter.consume(ip, 1)
+    } catch(err) {
+      return new Response('Limit exceeded', {
+        status: 429,
+      })
+    }
 
     const blob = form.get('file')
     const name = cleanInput(form.get('name'))

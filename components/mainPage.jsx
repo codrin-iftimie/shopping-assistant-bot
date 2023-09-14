@@ -120,22 +120,8 @@ export default function MainPage() {
   React.useEffect(() => {
 
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices.getUserMedia({ video: true })
-        .then(stream => {
-          if (videoRef.current) {
-            videoRef.current.srcObject = stream;
-          }
-        })
-        .catch(error => console.log(error)); // Handle the error appropriately for your application
-    }
 
-  }, [])
-
-  React.useEffect(() => {
-
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-
-      navigator.mediaDevices.getUserMedia({ audio: true }).then(handleStream).catch(handleError)
+      navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then(handleStream).catch(handleError)
 
     } else {
 
@@ -150,12 +136,12 @@ export default function MainPage() {
         window.cancelAnimationFrame(animFrame.current)
 
       } catch(error) {
-        console.log(error)
+        console.error(error)
       }
 
     }
 
-  }, [minDecibels, maxPause,language, endpoint, temperature])
+  }, [])
 
   React.useEffect(() => {
 
@@ -182,13 +168,14 @@ export default function MainPage() {
 
   const handleStream = (stream) => {
 
-    // if (videoRef.current) {
-    //   videoRef.current.srcObject = stream;
-    // }
+    if (videoRef.current) {
+      videoRef.current.srcObject = stream;
+    }
+
+    const audioStream = new MediaStream(stream.getAudioTracks())
 
     try {
-
-      mediaRef.current = new MediaRecorder(stream, {
+      mediaRef.current = new MediaRecorder(audioStream, {
         audioBitsPerSecond: 128000,
         mimeType: 'audio/webm;codecs=opus',
       })
@@ -265,9 +252,7 @@ export default function MainPage() {
             setCountDown(false)
             countDownRef.current = false
             countRef.current = 0
-
             mediaRef.current.start()
-
           }
 
         }
@@ -546,7 +531,7 @@ export default function MainPage() {
       <div className={classes.containerBody}>
         <div className={classes.videoBox}>
           <img src="https://www.w3schools.com//w3images/avatar_g2.jpg" alt="avatar" className={classes.avatar} />
-          <video ref={videoRef} id="userVideo" width="100%" autoPlay></video>
+          <video ref={videoRef} id="userVideo" width="100%" autoPlay muted></video>
         </div>
         <div ref={listRef} className={classes.main}>
           {
